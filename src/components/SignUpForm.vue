@@ -28,8 +28,13 @@
     <input type="text"
            aria-label="Skills"
            v-model="tempSkill"
-           @keyup="addSkill"
+           @keyup.alt="addSkill"
     >
+    <ul class="skills">
+      <li v-for="skill in skills" :key="skill" class="pill">
+        {{ skill }}
+      </li>
+    </ul>
 
     <div class="terms">
       <input type="checkbox" aria-label="Accept" v-model="terms" required>
@@ -53,10 +58,9 @@ export default {
   },
   methods: {
     addSkill(event) {
-      if (event.key === ',' && this.tempSkill) {
+      if (event.key === ',' && !this.skills.includes(this.tempSkill)) {
         this.skills.push(this.tempSkill);
         this.tempSkill = '';
-        console.log(this.skills);
       }
     },
   }
