@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="submitForm">
 
     <label>Email:</label>
     <input type="email"
@@ -14,6 +14,7 @@
            v-model="password"
            required
     />
+    <p v-if="passwordError" class="error">{{ passwordError }}</p>
 
     <label>Role:</label>
     <select aria-label="Role"
@@ -46,6 +47,10 @@
       <label>Accept terms and conditions</label>
     </div>
 
+    <div class="submit">
+      <button type="submit">Create an account</button>
+    </div>
+
   </form>
 </template>
 
@@ -55,6 +60,7 @@ export default {
     return {
       email: '',
       password: '',
+      passwordError: null,
       role: 'Developer',
       terms: true,
       tempSkill: '',
@@ -70,7 +76,25 @@ export default {
     },
     deleteSkill(index) {
       this.skills.splice(index, 1);
-    }
+    },
+    isValid() {
+      this.passwordError = this.password.length > 5 ? null : 'Password must at least 6 characters long.';
+
+      return !this.passwordError;
+    },
+    submitForm() {
+      if (!this.isValid()) {
+        return;
+      }
+
+      console.log({
+        email: this.email,
+        password: this.password,
+        role: this.role,
+        skills: this.skills,
+        terms: this.terms,
+      });
+    },
   }
 }
 </script>
@@ -119,5 +143,23 @@ select {
 
 .terms label {
   margin: 0 0 0 15px;
+}
+
+button {
+  background: #0b6dff;
+  border: 0;
+  padding: 10px 20px;
+  margin-top: 20px;
+  color: white;
+  border-radius: 20px;
+}
+.submit {
+  text-align: center;
+}
+.error {
+  color: #ff0062;
+  margin-top: 10px;
+  font-size: 0.8em;
+  font-weight: bold;
 }
 </style>
