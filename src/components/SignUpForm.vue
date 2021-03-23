@@ -31,7 +31,12 @@
            @keyup.alt="addSkill"
     >
     <ul class="skills">
-      <li v-for="skill in skills" :key="skill" class="pill">
+      <li v-for="(skill, index) in skills"
+          :key="index"
+          @click="deleteSkill(index)"
+          class="pill"
+          style="cursor: not-allowed;"
+      >
         {{ skill }}
       </li>
     </ul>
@@ -63,6 +68,9 @@ export default {
         this.tempSkill = '';
       }
     },
+    deleteSkill(index) {
+      this.skills.splice(index, 1);
+    }
   }
 }
 </script>
